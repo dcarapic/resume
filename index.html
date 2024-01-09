@@ -10,12 +10,29 @@
             content="width=device-width, initial-scale=1.0" />
         <title>Dalibor Čarapić - Resume</title>
         <style>
+            /* Standard colors */
             :root {
                 --clr-back: white;
                 --clr-primary: rgb(42, 49, 49);
                 --clr-primary-light: rgb(42, 49, 49, 0.5);
+                --clr-color-link: rgb(17, 17, 131);
+                --clr-color-link-hover: rgb(77, 77, 223);
+                --clr-color-link-visited: rgba(0, 0, 114);
             }
 
+            /* Dark scheme support */
+            @media only screen and (prefers-color-scheme: dark) {
+                :root {
+                    --clr-back: rgb(42, 49, 49);
+                    --clr-primary: white;
+                    --clr-primary-light: rgb(255, 255, 255, 0.5);
+                    --clr-color-link: rgb(198, 198, 255);
+                    --clr-color-link-hover: rgb(222, 222, 255);
+                    --clr-color-link-visited: rgb(134, 134, 255);
+                }
+            }
+
+            /* Default settings */
             html,
             body {
                 background-color: var(--clr-back);
@@ -23,6 +40,19 @@
                 padding: 0;
             }
 
+            a {
+                color: var(--clr-color-link);
+            }
+
+            a:visited {
+                color: var(--clr-color-link-visited);
+            }
+
+            a:hover {
+                color: var(--clr-color-link-hover);
+            }
+
+            /* Container */
             .cv {
                 display: flex;
                 color: var(--clr-primary);
@@ -31,9 +61,10 @@
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 font-size: 11pt;
                 max-width: 1200px;
-                margin: 0 auto;
+                margin: 0 auto; /* centered */
             }
 
+            /* CSS reset */
             .cv *,
             .cv *::before,
             .cv *::after {
@@ -92,11 +123,6 @@
                 gap: 0.4rem;
             }
 
-            .cv header svg {
-                color: var(--clr-primary);
-                fill: var(--clr-primary);
-            }
-
             .cv header .profile-image {
                 aspect-ratio: 1;
                 background-size: cover;
@@ -109,16 +135,25 @@
                 gap: 0.4rem;
             }
 
+            /* Each general information segment consists of a SVG bullet and a text */
             .cv .general-info > * {
                 display: grid;
-                grid-template-columns: 1.6rem 1fr;
+                grid-template-columns: 1.6rem 1fr; /* Ensure consistent alignment */
             }
 
+            /* General SVG bullet setup */
             .cv .general-info > *::before {
                 content: '';
                 background-size: cover;
                 width: 1.5em;
                 height: 1.5em;
+            }
+
+            @media (prefers-color-scheme: dark) {
+                /* Invert general information SVG bullet images to look nice on dark scheme (white on black) */
+                .cv .general-info > *::before {
+                    filter: invert();
+                }
             }
 
             .cv .general-info .email::before {
@@ -145,56 +180,56 @@
                 background-image: var(--img-pdf);
             }
 
-            .cv .general-info > * > *:first-child {
-                flex: 0 0 1.4rem;
-            }
-
+            /* Main (center) content */
             .cv main {
                 padding: 1.2rem;
                 border-left: 2px dashed gray;
-                flex: 1 1 auto;
+                flex: 1 1 auto; /* Allow growing to maximum size in the parent container */
             }
 
+            /* Informational segments which have a timeline on the left side and content on the right */
             .cv .timeline {
                 display: flex;
-                min-height: 4rem;
-                margin-bottom: 1.2rem;
+                min-height: 4rem; /* Ensure minimum height to support 2 years and line between*/
+                margin-bottom: 1.2rem; /* Ensure consistent spacing between informational segments */
                 margin-top: 0.5rem;
-                break-inside: avoid;
+                break-inside: avoid; /* Avoid breaking segments between pages when printing*/
             }
 
-            .cv .timeline .headline {
-                font-weight: 600;
-            }
-
+            /* Left part (vertical timeline) */
             .cv .timeline > div:first-child {
-                flex: 0 0 4em;
+                flex: 0 0 4em; /* Always 4em wide */
                 display: flex;
                 flex-direction: column;
-                justify-content: space-around;
-                align-items: center;
+                justify-content: space-around; /* Ensures that the central part (the line) always takes remaining space */
+                align-items: center; /* Ensures that the years and the line are centered vertically */
             }
 
+            /* Line between the years */
             .cv .timeline > div:first-child > div:nth-child(2) {
                 width: 1px;
                 height: 100%;
                 background-color: var(--clr-primary-light);
             }
 
+            /* Content part of the timeline segment */
             .cv .timeline > div:nth-child(2) {
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
+                justify-content: center; /* Ensures that the content is centered vertically (due to min size of the entire segment we might have less content than the space we take) */
             }
 
+            /* Caption of a 'work' related segment */
             .cv .work > div:first-child {
                 font-weight: 700;
             }
 
+            /* Location of a 'work' related segment */
             .cv .work > div:nth-child(2) {
                 font-weight: 500;
             }
 
+            /* Certification segment */
             .cv .certificate {
                 margin-bottom: 0.3em;
             }
@@ -208,12 +243,14 @@
                 margin-right: 0.5em;
             }
 
+            /* Skills container */
             .cv .skills {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 column-gap: 2em;
             }
 
+            /* Skill segment */
             .cv .skill {
                 padding-bottom: 0.3em;
                 display: flex;
@@ -221,15 +258,18 @@
                 border-bottom: 0.5px dashed var(--clr-primary-light);
             }
 
+            /* Skill caption */
             .cv .skill > span:first-child {
                 font-weight: 600;
             }
 
+            /* Skill experience */
             .cv .skill > span:last-child {
                 flex-basis: 6rem;
                 text-align: right;
             }
 
+            /* Starred skill (appends a star image at the end of the caption) */
             .cv .star > span:first-child::after {
                 margin-left: 0.5em;
                 content: '';
@@ -240,6 +280,7 @@
                 height: 1em;
             }
 
+            /* Star explanation footer */
             .cv .star-footer {
                 display: flex;
                 align-items: center;
@@ -247,6 +288,7 @@
                 font-size: 0.8rem;
             }
 
+            /* Star explanation footer star image */
             .cv .star-footer::before {
                 content: '';
                 background-image: var(--img-star);
@@ -257,10 +299,11 @@
                 margin-right: 0.5em;
             }
 
+            /* Print specific styles */
             @media print {
                 .cv {
-                    font-size: 8pt;
-                    max-width: 100%;
+                    font-size: 8pt; /* Smaller font size to fit more content on the page */
+                    max-width: 100%; /* Fit page size */
                     margin: 0 0;
                 }
                 .cv header {
@@ -270,26 +313,34 @@
                 .cv main {
                     padding: 0rem;
                     padding-left: 1rem;
-                    border-left: 1pt dashed gray;
+                    border-left: 1pt dashed gray; /* Reduced size of the divider line */
+                }
+
+                .cv .not-printed {
+                    display: none;
                 }
             }
 
+            /* Responsive styles */
             @media only screen and (max-width: 900px) {
                 .cv {
                     display: block;
                 }
+
                 .cv header {
-                    flex-direction: row;
+                    flex-direction: row; /* Left side content moved to top */
                     gap: 0.4rem;
                     border: none;
                     border-bottom: 1px solid var(--clr-primary);
                     height: 12rem;
                 }
+
                 .cv header .profile-image {
                     width: 8rem;
                     height: 8rem;
                 }
 
+                /* General information may wrap to multiple columns */
                 .cv header .general-info {
                     display: flex;
                     flex-direction: column;
@@ -297,7 +348,7 @@
                 }
 
                 .cv .skills {
-                    display: block;
+                    display: block; /* Skills are in one column */
                 }
 
                 .cv main {
@@ -335,14 +386,6 @@
                     font-size: 10pt;
                 }
             }
-
-            @media (prefers-color-scheme: dark) {
-                :root {
-                    --clr-back: rgb(42, 49, 49);
-                    --clr-primary: white;
-                    --clr-primary-light: rgb(255, 255, 255, 0.5);
-                }
-            }
         </style>
     </head>
 
@@ -359,7 +402,7 @@
                             <p>Croatia</p>
                         </a>
                     </div>
-                    <div class="phone"><a href="+385914444544">+385 91 4444-544</a></div>
+                    <div class="phone"><a href="tel:+385914444544">+385 91 4444-544</a></div>
                     <div class="birthday">31.05.1976</div>
                     <div class="languages">
                         <div>
@@ -371,7 +414,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="pdf">
+                    <div class="pdf not-printed">
                         <a href="Dalibor Čarapić - Resume.pdf">PDF version of the resume</a>
                     </div>
                 </div>
@@ -1649,12 +1692,12 @@
         t7O+nTi/S/RjSYlRDz+SX9ov4/kfJL+5aHw/wAkX8qflkVal+D+UfyTdIY+Y/kf8vyMVeETprhejSvgt\
         idJERkuCQhPR5f5Mio4VENoR4bvgTd8j5X49f/Z');
             --img-star: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="256" height="256" viewBox="0 0 256 256"%3E%3Cpath fill="orange" d="M243 96.05a20 20 0 0 0-17.26-13.72l-57-4.93l-22.3-53.14a20 20 0 0 0-36.82 0L87.29 77.4l-57 4.93a20 20 0 0 0-11.42 35.07l43.32 37.8l-13 56.24A20 20 0 0 0 79 233.1l49-29.76l49 29.76a20 20 0 0 0 29.8-21.66l-13-56.24l43.32-37.8A20 20 0 0 0 243 96.05m-66.75 42.62a20 20 0 0 0-6.35 19.63l11.39 49.32l-42.94-26.08a19.9 19.9 0 0 0-20.7 0l-42.94 26.08L86.1 158.3a20 20 0 0 0-6.35-19.63l-38.09-33.23l50.14-4.34a19.92 19.92 0 0 0 16.69-12.19L128 42.42l19.51 46.49a19.92 19.92 0 0 0 16.69 12.19l50.14 4.34Z"%2F%3E%3C%2Fsvg%3E');
-            --img-email: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10h5v-2h-5c-4.34 0-8-3.66-8-8s3.66-8 8-8s8 3.66 8 8v1.43c0 .79-.71 1.57-1.5 1.57s-1.5-.78-1.5-1.57V12c0-2.76-2.24-5-5-5s-5 2.24-5 5s2.24 5 5 5c1.38 0 2.64-.56 3.54-1.47c.65.89 1.77 1.47 2.96 1.47c1.97 0 3.5-1.6 3.5-3.57V12c0-5.52-4.48-10-10-10m0 13c-1.66 0-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3s-1.34 3-3 3"%2F%3E%3C%2Fsvg%3E');
-            --img-address: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0l-8 5l-8-5zm0 12H4V8l8 5l8-5z"%2F%3E%3C%2Fsvg%3E');
-            --img-phone: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24c1.12.37 2.33.57 3.57.57c.55 0 1 .45 1 1V20c0 .55-.45 1-1 1c-9.39 0-17-7.61-17-17c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1c0 1.25.2 2.45.57 3.57c.11.35.03.74-.25 1.02z"%2F%3E%3C%2Fsvg%3E');
-            --img-birthday: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M9 10H7v2h2zm4 0h-2v2h2zm4 0h-2v2h2zm2-7h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 16H5V8h14z"%2F%3E%3C%2Fsvg%3E');
-            --img-language: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="m20.58 19.37l-2.99-8.36c-.21-.55-.68-.89-1.22-.89s-1 .34-1.23.91l-2.98 8.34a.75.75 0 1 0 1.41.51l.62-1.73h4.35l.62 1.73c.11.31.4.5.71.5c.08 0 .17-.01.25-.04a.75.75 0 0 0 .45-.96Zm-5.84-2.73l1.64-4.59l1.64 4.59zm-2.55-8.79c-2.26 3.57-4.3 5.73-6.78 7.17a.746.746 0 0 1-1.02-.27a.738.738 0 0 1 .27-1.02c2.1-1.22 3.82-2.97 5.75-5.87H4.12c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h3.75V4.38c0-.41.34-.75.75-.75s.75.34.75.75v1.98h3.75c.41 0 .75.34.75.75s-.34.75-.75.75h-.94Zm.04 7.27c-.13 0-.26-.03-.38-.1c-.65-.38-1.28-.8-1.87-1.24a.75.75 0 0 1 .9-1.2c.54.41 1.13.79 1.73 1.14a.752.752 0 0 1-.38 1.4"%2F%3E%3C%2Fsvg%3E');
-            --img-pdf: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="1024" height="1024" viewBox="0 0 1024 1024"%3E%3Cpath fill="currentColor" d="m531.3 574.4l.3-1.4c5.8-23.9 13.1-53.7 7.4-80.7c-3.8-21.3-19.5-29.6-32.9-30.2c-15.8-.7-29.9 8.3-33.4 21.4c-6.6 24-.7 56.8 10.1 98.6c-13.6 32.4-35.3 79.5-51.2 107.5c-29.6 15.3-69.3 38.9-75.2 68.7c-1.2 5.5.2 12.5 3.5 18.8c3.7 7 9.6 12.4 16.5 15c3 1.1 6.6 2 10.8 2c17.6 0 46.1-14.2 84.1-79.4c5.8-1.9 11.8-3.9 17.6-5.9c27.2-9.2 55.4-18.8 80.9-23.1c28.2 15.1 60.3 24.8 82.1 24.8c21.6 0 30.1-12.8 33.3-20.5c5.6-13.5 2.9-30.5-6.2-39.6c-13.2-13-45.3-16.4-95.3-10.2c-24.6-15-40.7-35.4-52.4-65.8M421.6 726.3c-13.9 20.2-24.4 30.3-30.1 34.7c6.7-12.3 19.8-25.3 30.1-34.7m87.6-235.5c5.2 8.9 4.5 35.8.5 49.4c-4.9-19.9-5.6-48.1-2.7-51.4c.8.1 1.5.7 2.2 2m-1.6 120.5c10.7 18.5 24.2 34.4 39.1 46.2c-21.6 4.9-41.3 13-58.9 20.2c-4.2 1.7-8.3 3.4-12.3 5c13.3-24.1 24.4-51.4 32.1-71.4m155.6 65.5c.1.2.2.5-.4.9h-.2l-.2.3c-.8.5-9 5.3-44.3-8.6c40.6-1.9 45 7.3 45.1 7.4m191.4-388.2L639.4 73.4c-6-6-14.1-9.4-22.6-9.4H192c-17.7 0-32 14.3-32 32v832c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V311.3c0-8.5-3.4-16.7-9.4-22.7M790.2 326H602V137.8zm1.8 562H232V136h302v216a42 42 0 0 0 42 42h216z"%2F%3E%3C%2Fsvg%3E');
+            --img-email: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10h5v-2h-5c-4.34 0-8-3.66-8-8s3.66-8 8-8s8 3.66 8 8v1.43c0 .79-.71 1.57-1.5 1.57s-1.5-.78-1.5-1.57V12c0-2.76-2.24-5-5-5s-5 2.24-5 5s2.24 5 5 5c1.38 0 2.64-.56 3.54-1.47c.65.89 1.77 1.47 2.96 1.47c1.97 0 3.5-1.6 3.5-3.57V12c0-5.52-4.48-10-10-10m0 13c-1.66 0-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3s-1.34 3-3 3"%2F%3E%3C%2Fsvg%3E');
+            --img-address: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0l-8 5l-8-5zm0 12H4V8l8 5l8-5z"%2F%3E%3C%2Fsvg%3E');
+            --img-phone: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24c1.12.37 2.33.57 3.57.57c.55 0 1 .45 1 1V20c0 .55-.45 1-1 1c-9.39 0-17-7.61-17-17c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1c0 1.25.2 2.45.57 3.57c.11.35.03.74-.25 1.02z"%2F%3E%3C%2Fsvg%3E');
+            --img-birthday: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath d="M9 10H7v2h2zm4 0h-2v2h2zm4 0h-2v2h2zm2-7h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 16H5V8h14z"%2F%3E%3C%2Fsvg%3E');
+            --img-language: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath d="m20.58 19.37l-2.99-8.36c-.21-.55-.68-.89-1.22-.89s-1 .34-1.23.91l-2.98 8.34a.75.75 0 1 0 1.41.51l.62-1.73h4.35l.62 1.73c.11.31.4.5.71.5c.08 0 .17-.01.25-.04a.75.75 0 0 0 .45-.96Zm-5.84-2.73l1.64-4.59l1.64 4.59zm-2.55-8.79c-2.26 3.57-4.3 5.73-6.78 7.17a.746.746 0 0 1-1.02-.27a.738.738 0 0 1 .27-1.02c2.1-1.22 3.82-2.97 5.75-5.87H4.12c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h3.75V4.38c0-.41.34-.75.75-.75s.75.34.75.75v1.98h3.75c.41 0 .75.34.75.75s-.34.75-.75.75h-.94Zm.04 7.27c-.13 0-.26-.03-.38-.1c-.65-.38-1.28-.8-1.87-1.24a.75.75 0 0 1 .9-1.2c.54.41 1.13.79 1.73 1.14a.752.752 0 0 1-.38 1.4"%2F%3E%3C%2Fsvg%3E');
+            --img-pdf: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="1024" height="1024" viewBox="0 0 1024 1024"%3E%3Cpath d="m531.3 574.4l.3-1.4c5.8-23.9 13.1-53.7 7.4-80.7c-3.8-21.3-19.5-29.6-32.9-30.2c-15.8-.7-29.9 8.3-33.4 21.4c-6.6 24-.7 56.8 10.1 98.6c-13.6 32.4-35.3 79.5-51.2 107.5c-29.6 15.3-69.3 38.9-75.2 68.7c-1.2 5.5.2 12.5 3.5 18.8c3.7 7 9.6 12.4 16.5 15c3 1.1 6.6 2 10.8 2c17.6 0 46.1-14.2 84.1-79.4c5.8-1.9 11.8-3.9 17.6-5.9c27.2-9.2 55.4-18.8 80.9-23.1c28.2 15.1 60.3 24.8 82.1 24.8c21.6 0 30.1-12.8 33.3-20.5c5.6-13.5 2.9-30.5-6.2-39.6c-13.2-13-45.3-16.4-95.3-10.2c-24.6-15-40.7-35.4-52.4-65.8M421.6 726.3c-13.9 20.2-24.4 30.3-30.1 34.7c6.7-12.3 19.8-25.3 30.1-34.7m87.6-235.5c5.2 8.9 4.5 35.8.5 49.4c-4.9-19.9-5.6-48.1-2.7-51.4c.8.1 1.5.7 2.2 2m-1.6 120.5c10.7 18.5 24.2 34.4 39.1 46.2c-21.6 4.9-41.3 13-58.9 20.2c-4.2 1.7-8.3 3.4-12.3 5c13.3-24.1 24.4-51.4 32.1-71.4m155.6 65.5c.1.2.2.5-.4.9h-.2l-.2.3c-.8.5-9 5.3-44.3-8.6c40.6-1.9 45 7.3 45.1 7.4m191.4-388.2L639.4 73.4c-6-6-14.1-9.4-22.6-9.4H192c-17.7 0-32 14.3-32 32v832c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V311.3c0-8.5-3.4-16.7-9.4-22.7M790.2 326H602V137.8zm1.8 562H232V136h302v216a42 42 0 0 0 42 42h216z"%2F%3E%3C%2Fsvg%3E');
         }
     </style>
 </html>
